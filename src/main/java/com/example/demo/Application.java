@@ -1,7 +1,6 @@
-
 package com.example.demo;
-
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.*;
@@ -13,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.security.SecureRandom;
+
 
 @SpringBootApplication
 @RestController
@@ -27,14 +26,17 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    @SuppressWarnings("unused")
     @GetMapping("/hello")
     public String hello() {
         return "Hello, OpenTelemetry!";
     }
 
+    @SuppressWarnings("unused")
     @GetMapping("/predict-age")
     public ResponseEntity<String> predictAge(@RequestParam String name, @RequestHeader(value = "trace-id", required = false) String traceId) {
-        String currentTraceId =  TraceIdGenerator.generateTraceId();
+        SpanContext ctx = Span.current().getSpanContext();
+        String currentTraceId =  ctx.getTraceId();
         Span.current().setAttribute("custom.trace_id", currentTraceId);
 
         log.info("Generated trace ID: {}", currentTraceId);
@@ -43,7 +45,6 @@ public class Application {
         String effectiveTraceId = (traceId != null) ? traceId : currentTraceId;
 
         // You can pass this traceId downstream in headers or log it
-        // Example: pass as header to the downstream HTTP call
           HttpHeaders headers = new HttpHeaders();
           headers.set("trace-id", effectiveTraceId);
           HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -55,24 +56,11 @@ public class Application {
                 Map.class
         );
         // Log the traceId for debugging
+        assert response.getBody() != null;
         String body = response.getBody().toString();
 
        // return "Predicted age for " + name + ": " + response.getBody().get("age");
         return new ResponseEntity<>(body, headers, HttpStatus.OK);
-    }
-
-    public class TraceIdGenerator {
-        private static final SecureRandom random = new SecureRandom();
-
-        public static String generateTraceId() {
-            byte[] bytes = new byte[16]; // 128 bits
-            random.nextBytes(bytes);
-            StringBuilder sb = new StringBuilder();
-            for (byte b : bytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return Span.current().getSpanContext().getTraceId();
-        }
     }
     }
 
