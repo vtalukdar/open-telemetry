@@ -64,7 +64,7 @@ wait_for_service "http://localhost:9090" "Prometheus"
 wait_for_service "http://localhost:3000" "Grafana"
 wait_for_service "http://localhost:3200" "Tempo"
 
-echo "🔨 Building Spring Boot application..."
+echo "Building Spring Boot application..."
 if mvn clean package -DskipTests; then
   echo "Build successful"
 else
@@ -74,9 +74,10 @@ fi
 
 echo "Running Spring Boot app with OpenTelemetry Java agent..."
 export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+unset OTEL_EXPORTER_OTLP_PROTOCOL
 export OTEL_SERVICE_NAME=spring-boot-app
 export OTEL_TRACES_EXPORTER=otlp
-export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+
 
 if [ ! -f "opentelemetry-javaagent.jar" ]; then
   echo "Downloading OpenTelemetry Java agent..."

@@ -12,6 +12,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - tempo
+    networks:
+      - observability
 
   prometheus:
     image: prom/prometheus:latest
@@ -19,6 +21,8 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - observability
 
   tempo:
     image: grafana/tempo:latest
@@ -29,6 +33,11 @@ services:
       - "3200:3200"   # Tempo's HTTP endpoint
       - "4317:4317"   # OTLP gRPC receiver
       - "4318:4318"   # OTLP HTTP receiver
+    networks:
+      - observability
+networks:
+  observability:
+    driver: bridge
 
 volumes:
   grafana-storage:

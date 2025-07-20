@@ -55,7 +55,6 @@ public class Application {
                 entity,
                 Map.class
         );
-        // Log the traceId for debugging
         assert response.getBody() != null;
         String body = response.getBody().toString();
 

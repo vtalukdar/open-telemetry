@@ -1,9 +1,57 @@
 Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[otel.javaagent 2025-07-20 16:54:05:638 +0200] [main] INFO io.opentelemetry.javaagent.tooling.VersionLogger - opentelemetry-javaagent - version: 2.18.0
+[otel.javaagent 2025-07-20 18:12:10:121 +0200] [main] INFO io.opentelemetry.javaagent.tooling.VersionLogger - opentelemetry-javaagent - version: 2.18.0
 WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
 WARNING: sun.misc.Unsafe::objectFieldOffset has been called by net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction (file:/Users/victortalukdar/Documents/Technical/JAVA/Open%20Telemetry%20Project/opentelemetry-javaagent.jar)
 WARNING: Please consider reporting this to the maintainers of class net.bytebuddy.dynamic.loading.ClassInjector$UsingUnsafe$Dispatcher$CreationAction
 WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[otel.javaagent 2025-07-20 18:12:10:465 +0200] [main] INFO io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdkBuilder - Error encountered during autoconfiguration. Closing partially configured components.
+OpenTelemetry Javaagent failed to start
+io.opentelemetry.sdk.autoconfigure.spi.ConfigurationException: OTLP endpoint must be a valid URL: grpc://localhost:4317
+	at io.opentelemetry.exporter.otlp.internal.OtlpConfigUtil.validateEndpoint(OtlpConfigUtil.java:184)
+	at io.opentelemetry.exporter.otlp.internal.OtlpConfigUtil.configureOtlpExporterBuilder(OtlpConfigUtil.java:78)
+	at io.opentelemetry.exporter.otlp.internal.OtlpMetricExporterProvider.createExporter(OtlpMetricExporterProvider.java:59)
+	at io.opentelemetry.sdk.autoconfigure.internal.SpiHelper.lambda$loadConfigurable$0(SpiHelper.java:76)
+	at io.opentelemetry.sdk.autoconfigure.internal.NamedSpiManager.tryLoadImplementationForName(NamedSpiManager.java:51)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1724)
+	at io.opentelemetry.sdk.autoconfigure.internal.NamedSpiManager.getByName(NamedSpiManager.java:41)
+	at io.opentelemetry.sdk.autoconfigure.MetricExporterConfiguration.configureExporter(MetricExporterConfiguration.java:133)
+	at io.opentelemetry.sdk.autoconfigure.MetricExporterConfiguration.configureReader(MetricExporterConfiguration.java:53)
+	at io.opentelemetry.sdk.autoconfigure.MeterProviderConfiguration.lambda$configureMetricReaders$2(MeterProviderConfiguration.java:102)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:215)
+	at java.base/java.util.Collections$2.tryAdvance(Collections.java:5075)
+	at java.base/java.util.Collections$2.forEachRemaining(Collections.java:5083)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:727)
+	at io.opentelemetry.sdk.autoconfigure.MeterProviderConfiguration.configureMetricReaders(MeterProviderConfiguration.java:109)
+	at io.opentelemetry.sdk.autoconfigure.MeterProviderConfiguration.configureMeterProvider(MeterProviderConfiguration.java:71)
+	at io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdkBuilder.configureSdk(AutoConfiguredOpenTelemetrySdkBuilder.java:525)
+	at io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdkBuilder.buildImpl(AutoConfiguredOpenTelemetrySdkBuilder.java:488)
+	at io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdkBuilder.lambda$build$12(AutoConfiguredOpenTelemetrySdkBuilder.java:435)
+	at io.opentelemetry.javaagent.shaded.io.opentelemetry.api.GlobalOpenTelemetry.set(GlobalOpenTelemetry.java:130)
+	at io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdkBuilder.build(AutoConfiguredOpenTelemetrySdkBuilder.java:433)
+	at io.opentelemetry.javaagent.tooling.OpenTelemetryInstaller.installOpenTelemetrySdk(OpenTelemetryInstaller.java:29)
+	at io.opentelemetry.javaagent.tooling.AgentInstaller.installBytebuddyAgent(AgentInstaller.java:168)
+	at io.opentelemetry.javaagent.tooling.AgentInstaller.installBytebuddyAgent(AgentInstaller.java:113)
+	at io.opentelemetry.javaagent.tooling.AgentStarterImpl.start(AgentStarterImpl.java:101)
+	at io.opentelemetry.javaagent.bootstrap.AgentInitializer$2.run(AgentInitializer.java:66)
+	at io.opentelemetry.javaagent.bootstrap.AgentInitializer$2.run(AgentInitializer.java:60)
+	at io.opentelemetry.javaagent.bootstrap.AgentInitializer.execute(AgentInitializer.java:82)
+	at io.opentelemetry.javaagent.bootstrap.AgentInitializer.initialize(AgentInitializer.java:59)
+	at io.opentelemetry.javaagent.OpenTelemetryAgent.startAgent(OpenTelemetryAgent.java:59)
+	at io.opentelemetry.javaagent.OpenTelemetryAgent.premain(OpenTelemetryAgent.java:46)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndStartAgent(InstrumentationImpl.java:544)
+	at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndCallPremain(InstrumentationImpl.java:556)
+Caused by: java.net.MalformedURLException: unknown protocol: grpc
+	at java.base/java.net.URL.<init>(URL.java:740)
+	at java.base/java.net.URL.<init>(URL.java:628)
+	at java.base/java.net.URL.<init>(URL.java:564)
+	at io.opentelemetry.exporter.otlp.internal.OtlpConfigUtil.validateEndpoint(OtlpConfigUtil.java:182)
+	... 38 more
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -18,528 +66,3 @@ WARNING: java.lang.System::load has been called by org.apache.tomcat.jni.Library
 WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
 WARNING: Restricted methods will be blocked in a future release unless native access is enabled
 
-[otel.javaagent 2025-07-20 16:54:11:162 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: okhttp3.internal.http2.ConnectionShutdownException
-		at okhttp3.internal.http2.Http2Connection.newStream(Http2Connection.kt:253)
-		at okhttp3.internal.http2.Http2Connection.newStream(Http2Connection.kt:233)
-		at okhttp3.internal.http2.Http2ExchangeCodec.writeRequestHeaders(Http2ExchangeCodec.kt:80)
-		at okhttp3.internal.connection.Exchange.writeRequestHeaders(Exchange.kt:64)
-		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:46)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:101)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:85)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:74)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at io.opentelemetry.exporter.sender.okhttp.internal.RetryInterceptor.intercept(RetryInterceptor.java:96)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:208)
-		at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:530)
-		... 3 more
-[otel.javaagent 2025-07-20 16:54:21:186 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:54:26:216 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: closed
-java.io.IOException: closed
-	at okhttp3.internal.http2.Http2Writer.flush(Http2Writer.kt:130)
-	at okhttp3.internal.http2.Http2Connection.flush(Http2Connection.kt:419)
-	at okhttp3.internal.http2.Http2Stream$FramingSink.close(Http2Stream.kt:680)
-	at okio.ForwardingSink.close(ForwardingSink.kt:37)
-	at okhttp3.internal.connection.Exchange$RequestBodySink.close(Exchange.kt:272)
-	at okio.RealBufferedSink.close(RealBufferedSink.kt:287)
-	at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:68)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:101)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:85)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:74)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at io.opentelemetry.exporter.sender.okhttp.internal.RetryInterceptor.intercept(RetryInterceptor.java:96)
-	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-	at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:208)
-	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:530)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.SocketException: Connection reset
-		at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
-		at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
-		at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
-		at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
-		at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
-		at okio.InputStreamSource.read(JvmOkio.kt:94)
-		at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:153)
-		at okio.RealBufferedSource.request(RealBufferedSource.kt:232)
-		at okio.RealBufferedSource.require(RealBufferedSource.kt:225)
-		at okhttp3.internal.http2.Http2Reader.nextFrame(Http2Reader.kt:94)
-		at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:75)
-		at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-		at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-		at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-		at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-		... 3 more
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-		at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-		at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-		at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-		at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-		... 3 more
-[otel.javaagent 2025-07-20 16:54:41:267 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:54:57:366 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:55:06:095 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export metrics. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:55:14:856 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:55:29:881 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:55:44:902 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: closed
-		at okhttp3.internal.http2.Http2Writer.flush(Http2Writer.kt:130)
-		at okhttp3.internal.http2.Http2Connection.flush(Http2Connection.kt:419)
-		at okhttp3.internal.http2.Http2Stream$FramingSink.close(Http2Stream.kt:680)
-		at okio.ForwardingSink.close(ForwardingSink.kt:37)
-		at okhttp3.internal.connection.Exchange$RequestBodySink.close(Exchange.kt:272)
-		at okio.RealBufferedSink.close(RealBufferedSink.kt:287)
-		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:68)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:101)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:85)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:74)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at io.opentelemetry.exporter.sender.okhttp.internal.RetryInterceptor.intercept(RetryInterceptor.java:96)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:208)
-		at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:530)
-		... 3 more
-		Suppressed: java.io.IOException: Required SETTINGS preface not received
-			at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-			at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-			at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-			... 3 more
-[otel.javaagent 2025-07-20 16:55:59:917 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:56:07:244 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export metrics. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:56:09:929 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:56:24:953 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:56:39:968 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:56:54:992 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:57:06:984 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export metrics. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.SocketException: Broken pipe
-		at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
-		at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:62)
-		at java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:393)
-		at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:409)
-		at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:439)
-		at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:813)
-		at java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1098)
-		at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1085)
-		at okio.OutputStreamSink.write(JvmOkio.kt:57)
-		at okio.AsyncTimeout$sink$1.write(AsyncTimeout.kt:127)
-		at okio.RealBufferedSink.flush(RealBufferedSink.kt:268)
-		at okhttp3.internal.http2.Http2Writer.flush(Http2Writer.kt:131)
-		at okhttp3.internal.http2.Http2Connection.flush(Http2Connection.kt:419)
-		at okhttp3.internal.http2.Http2Stream$FramingSink.close(Http2Stream.kt:680)
-		at okio.ForwardingSink.close(ForwardingSink.kt:37)
-		at okhttp3.internal.connection.Exchange$RequestBodySink.close(Exchange.kt:272)
-		at okio.RealBufferedSink.close(RealBufferedSink.kt:287)
-		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:68)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:101)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:85)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:74)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at io.opentelemetry.exporter.sender.okhttp.internal.RetryInterceptor.intercept(RetryInterceptor.java:96)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:208)
-		at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:530)
-		... 3 more
-		Suppressed: java.net.SocketException: Connection reset
-			at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
-			at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
-			at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
-			at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
-			at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
-			at okio.InputStreamSource.read(JvmOkio.kt:94)
-			at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:153)
-			at okio.RealBufferedSource.request(RealBufferedSource.kt:232)
-			at okio.RealBufferedSource.require(RealBufferedSource.kt:225)
-			at okhttp3.internal.http2.Http2Reader.nextFrame(Http2Reader.kt:94)
-			at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:75)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-			at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-			at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-			... 3 more
-[otel.javaagent 2025-07-20 16:57:10:017 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.SocketException: Broken pipe
-		at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
-		at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:62)
-		at java.base/sun.nio.ch.NioSocketImpl.tryWrite(NioSocketImpl.java:393)
-		at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:409)
-		at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:439)
-		at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:813)
-		at java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1098)
-		at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1085)
-		at okio.OutputStreamSink.write(JvmOkio.kt:57)
-		at okio.AsyncTimeout$sink$1.write(AsyncTimeout.kt:127)
-		at okio.RealBufferedSink.flush(RealBufferedSink.kt:268)
-		at okhttp3.internal.http2.Http2Writer.flush(Http2Writer.kt:131)
-		at okhttp3.internal.http2.Http2Connection.flush(Http2Connection.kt:419)
-		at okhttp3.internal.http2.Http2Stream$FramingSink.close(Http2Stream.kt:680)
-		at okio.ForwardingSink.close(ForwardingSink.kt:37)
-		at okhttp3.internal.connection.Exchange$RequestBodySink.close(Exchange.kt:272)
-		at okio.RealBufferedSink.close(RealBufferedSink.kt:287)
-		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:68)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:101)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:85)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:74)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at io.opentelemetry.exporter.sender.okhttp.internal.RetryInterceptor.intercept(RetryInterceptor.java:96)
-		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:126)
-		at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:208)
-		at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:530)
-		... 3 more
-		Suppressed: java.net.SocketException: Connection reset
-			at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
-			at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
-			at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
-			at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
-			at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
-			at okio.InputStreamSource.read(JvmOkio.kt:94)
-			at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:153)
-			at okio.RealBufferedSource.request(RealBufferedSource.kt:232)
-			at okio.RealBufferedSource.require(RealBufferedSource.kt:225)
-			at okhttp3.internal.http2.Http2Reader.nextFrame(Http2Reader.kt:94)
-			at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:75)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-			at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-			at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-			at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-			... 3 more
-[otel.javaagent 2025-07-20 16:57:25:052 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:57:40:083 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-[otel.javaagent 2025-07-20 16:57:55:119 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:58:06:068 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export metrics. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.SocketException: Connection reset
-		at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
-		at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
-		at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
-		at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
-		at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
-		at okio.InputStreamSource.read(JvmOkio.kt:94)
-		at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:153)
-		at okio.RealBufferedSource.request(RealBufferedSource.kt:232)
-		at okio.RealBufferedSource.require(RealBufferedSource.kt:225)
-		at okhttp3.internal.http2.Http2Reader.nextFrame(Http2Reader.kt:94)
-		at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:75)
-		... 7 more
-[otel.javaagent 2025-07-20 16:58:10:152 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:58:25:185 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export spans. The request could not be executed. Error message: Required SETTINGS preface not received
-java.io.IOException: Required SETTINGS preface not received
-	at okhttp3.internal.http2.Http2Reader.readConnectionPreface(Http2Reader.kt:76)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:640)
-	at okhttp3.internal.http2.Http2Connection$ReaderRunnable.invoke(Http2Connection.kt:631)
-	at okhttp3.internal.concurrent.TaskQueue$execute$1.runOnce(TaskQueue.kt:112)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.io.IOException: Required SETTINGS preface not received
-		... 8 more
-[otel.javaagent 2025-07-20 16:58:37:158 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export metrics. The request could not be executed. Error message: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4317
-java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4317
-	at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:282)
-	at okhttp3.internal.connection.ConnectPlan.connectTcp(ConnectPlan.kt:140)
-	at okhttp3.internal.connection.FastFallbackExchangeFinder$launchTcpConnect$1.runOnce(FastFallbackExchangeFinder.kt:141)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.ConnectException: Failed to connect to localhost/127.0.0.1:4317
-		... 7 more
-	Caused by: java.net.ConnectException: Connection refused
-		at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-		at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:628)
-		at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:540)
-		at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
-		at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:282)
-		at java.base/java.net.Socket.connect(Socket.java:665)
-		at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:147)
-		at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:280)
-		... 6 more
-Caused by: java.net.ConnectException: Connection refused
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:628)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:540)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:282)
-	at java.base/java.net.Socket.connect(Socket.java:665)
-	at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:147)
-	at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:280)
-	... 6 more
-[otel.javaagent 2025-07-20 16:58:41:785 +0200] [OkHttp http://localhost:4317/...] ERROR io.opentelemetry.exporter.internal.grpc.GrpcExporter - Failed to export logs. The request could not be executed. Error message: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4317
-java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4317
-	at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:282)
-	at okhttp3.internal.connection.ConnectPlan.connectTcp(ConnectPlan.kt:140)
-	at okhttp3.internal.connection.FastFallbackExchangeFinder$launchTcpConnect$1.runOnce(FastFallbackExchangeFinder.kt:141)
-	at okhttp3.internal.concurrent.TaskRunner$runnable$1.run(TaskRunner.kt:81)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1095)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:619)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-	Suppressed: java.net.ConnectException: Failed to connect to localhost/127.0.0.1:4317
-		... 7 more
-	Caused by: java.net.ConnectException: Connection refused
-		at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-		at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:628)
-		at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:540)
-		at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
-		at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:282)
-		at java.base/java.net.Socket.connect(Socket.java:665)
-		at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:147)
-		at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:280)
-		... 6 more
-Caused by: java.net.ConnectException: Connection refused
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:628)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:282)
-	at java.base/java.net.Socket.connect(Socket.java:665)
-	at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:147)
-	at okhttp3.internal.connection.ConnectPlan.connectSocket(ConnectPlan.kt:280)
-	... 6 more

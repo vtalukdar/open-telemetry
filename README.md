@@ -1,44 +1,62 @@
-# Spring Boot Observability with OpenTelemetry, Prometheus, and Grafana
+# Spring Boot Observability Demo with Spring Boot, OpenTelemetry, Tempo, Prometheus, and Grafana
+This project demonstrates end-to-end observability using only open-source tools. It includes a Spring Boot application with distributed tracing configured using OpenTelemetry, metrics collection via Prometheus, and visualization in Grafana with Tempo as the trace store.
 
-This project demonstrates how to add observability to a Spring Boot application using OpenTelemetry for instrumentation, Prometheus for metrics collection, and Grafana for visualization.
+# What is Prometheus?
+Prometheus is an open-source monitoring system that collects metrics from configured targets and stores them for querying and alerting.
 
----
+# What is Grafana?
+Grafana is an open-source analytics and visualization tool that allows you to query, visualize, and alert on data sources like Prometheus and Tempo.
 
-## 🔍 What Is Prometheus?
+Prerequisites
+•	Java 17+
+•	Maven
+•	Docker + Docker Compose
+•	Git
 
-**Prometheus** is an open-source monitoring and alerting toolkit. It collects and stores time-series data — like request counts, error rates, or response durations — by scraping metrics endpoints (e.g. `/actuator/prometheus`) exposed by services.
+How to Run the Project
 
-- Pull-based metrics collection
-- Powerful query language (PromQL)
-- Native integration with Grafana
-- Designed for reliability even if other systems fail
+1. Clone the Repository
 
----
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
 
-## 📈 What Is Grafana?
+2. Make Scripts Executable
 
-**Grafana** is an open-source analytics and visualization platform. It allows you to:
+chmod +x start-observability.sh stop-observability.sh
 
-- Connect to multiple data sources (like Prometheus, Tempo, etc.)
-- Create and customize real-time dashboards
-- Explore and search logs and traces
-- Visualize metrics with rich graphs, tables, heatmaps, and more
+3. Start Everything (App + Tempo + Prometheus + Grafana)
 
----
+./start-observability.sh
 
-## ✅ Prerequisites
+This will:
+•	Check required ports and Docker daemon
+•	Build and launch the Spring Boot app
+•	Start Docker containers for Tempo, Prometheus, and Grafana
+•	Open Grafana and Prometheus in your browser
 
-- Java 17+ installed
-- Maven installed
-- Docker & Docker Compose installed and running
-- Git (optional)
+4. Access Services
+   •	Spring Boot App: http://localhost:8080
+   •	Prometheus: http://localhost:9090
+   •	Grafana: http://localhost:3000 (login: admin / admin)
+   •	Tempo UI (query endpoint): http://localhost:3200
 
----
+5. Generate Traces
 
-## 🚀 Getting Started
+Call your API endpoint to generate a trace:
 
-### 1. Clone the Repository (if applicable)
+# curl "http://localhost:8080/predict-age?name=John"
 
-```bash
-git clone <your-repo-url>
-cd <your-project-directory>
+The response will include a trace ID in the header or body, which you can use to search in Grafana Tempo.
+
+6. View Traces in Grafana
+   •	Go to Explore in Grafana
+   •	Select Tempo as the data source
+   •	Paste the trace ID returned from the app and run the query
+
+# Stop Everything
+./stop-observability.sh
+This will stop all containers and the Spring Boot app.
+
+
+
+Feel free to modify the configuration files to fit your environment!

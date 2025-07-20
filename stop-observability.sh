@@ -16,5 +16,5 @@ echo "Stopping Docker containers..."
 docker-compose -f docker-compose-tempo.yml down --remove-orphans
 
 # Final port check
-echo "✅ Cleanup done. Checking for leftover services:"
+echo "Cleanup done. Checking for leftover services:"
 lsof -i :9090
