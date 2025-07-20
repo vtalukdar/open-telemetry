@@ -2,6 +2,7 @@
 package com.example.demo;
 
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.*;
@@ -65,13 +66,8 @@ public class Application {
         private static final SecureRandom random = new SecureRandom();
 
         public static String generateTraceId() {
-            byte[] bytes = new byte[16]; // 128 bits
-            random.nextBytes(bytes);
-            StringBuilder sb = new StringBuilder();
-            for (byte b : bytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return Span.current().getSpanContext().getTraceId();
+            SpanContext ctx = Span.current().getSpanContext();
+            return ctx.getTraceId(); // ← this is the actual trace ID stored in Tempo
         }
     }
     }
