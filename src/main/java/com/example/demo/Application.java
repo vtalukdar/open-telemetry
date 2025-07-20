@@ -1,24 +1,27 @@
 
 package com.example.demo;
 
+import io.opentelemetry.api.trace.Span;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import java.net.http.HttpHeaders;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.security.SecureRandom;
 
 @SpringBootApplication
 @RestController
 public class Application {
 
     private final RestTemplate restTemplate = new RestTemplate();
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
+
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -30,30 +33,46 @@ public class Application {
     }
 
     @GetMapping("/predict-age")
-    public String predictAge(@RequestParam String name, @RequestHeader(value = "trace-id", required = false) String traceId) {
-        //    Span currentSpan = Span.current();
-        //   String currentTraceId = currentSpan.getSpanContext().getTraceId();
+    public ResponseEntity<String> predictAge(@RequestParam String name, @RequestHeader(value = "trace-id", required = false) String traceId) {
+        String currentTraceId =  TraceIdGenerator.generateTraceId();
+        Span.current().setAttribute("custom.trace_id", currentTraceId);
 
-        // If incoming traceId header is missing, use current Trace ID
-        //String effectiveTraceId = (traceId != null) ? traceId : currentTraceId;
+        log.info("Generated trace ID: {}", currentTraceId);
+
+        //If incoming traceId header is missing, use current Trace ID
+        String effectiveTraceId = (traceId != null) ? traceId : currentTraceId;
 
         // You can pass this traceId downstream in headers or log it
         // Example: pass as header to the downstream HTTP call
-        //  HttpHeaders headers = new HttpHeaders();
-        //  headers.set("trace-id", effectiveTraceId);
-        //  HttpEntity<String> entity = new HttpEntity<>(headers);
+          HttpHeaders headers = new HttpHeaders();
+          headers.set("trace-id", effectiveTraceId);
+          HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        HttpEntity<String> entity = null;
-        ResponseEntity<Map> response = restTemplate.exchange(
+          ResponseEntity<Map> response = restTemplate.exchange(
                 "https://api.agify.io/?name=" + name,
                 HttpMethod.GET,
                 entity,
                 Map.class
         );
         // Log the traceId for debugging
-     //   log.info("Trace ID: {}", effectiveTraceId);
+        String body = response.getBody().toString();
 
-        return "Predicted age for " + name + ": " + response.getBody().get("age");
+       // return "Predicted age for " + name + ": " + response.getBody().get("age");
+        return new ResponseEntity<>(body, headers, HttpStatus.OK);
+    }
+
+    public class TraceIdGenerator {
+        private static final SecureRandom random = new SecureRandom();
+
+        public static String generateTraceId() {
+            byte[] bytes = new byte[16]; // 128 bits
+            random.nextBytes(bytes);
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return Span.current().getSpanContext().getTraceId();
+        }
     }
     }
 

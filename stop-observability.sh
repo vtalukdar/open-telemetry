@@ -1,21 +1,20 @@
 #!/bin/bash
 
-echo "🛑 Stopping Spring Boot + Prometheus + Grafana..."
+echo "Stopping Spring Boot + Tempo + Prometheus + Grafana..."
 
-# Find and kill Spring Boot app by searching for the jar name (adjust if needed)
+# Kill Spring Boot app
 APP_PID=$(pgrep -f 'java.*target/.*\.jar')
-
 if [ -n "$APP_PID" ]; then
   echo "Stopping Spring Boot (PID: $APP_PID)..."
   kill $APP_PID
-  # Wait a bit for it to stop
-  sleep 5
 else
-  echo "Spring Boot app is not running."
+  echo "Spring Boot app not running."
 fi
 
-# Stop Prometheus and Grafana containers
-echo "Stopping Prometheus and Grafana Docker containers..."
-docker-compose -f docker-compose-prometheus.yml down
+# Stop Docker services
+echo "Stopping Docker containers..."
+docker-compose -f docker-compose-tempo.yml down --remove-orphans
 
-echo "✅ All services stopped."
+# Final port check
+echo "✅ Cleanup done. Checking for leftover services:"
+lsof -i :9090
