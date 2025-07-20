@@ -1,34 +1,44 @@
+# Spring Boot Observability with OpenTelemetry, Prometheus, and Grafana
 
-# OpenTelemetry Spring Boot Demo (Auto-Instrumented)
+This project demonstrates how to add observability to a Spring Boot application using OpenTelemetry for instrumentation, Prometheus for metrics collection, and Grafana for visualization.
 
-## 🛠 Build the Project
+---
+
+## 🔍 What Is Prometheus?
+
+**Prometheus** is an open-source monitoring and alerting toolkit. It collects and stores time-series data — like request counts, error rates, or response durations — by scraping metrics endpoints (e.g. `/actuator/prometheus`) exposed by services.
+
+- Pull-based metrics collection
+- Powerful query language (PromQL)
+- Native integration with Grafana
+- Designed for reliability even if other systems fail
+
+---
+
+## 📈 What Is Grafana?
+
+**Grafana** is an open-source analytics and visualization platform. It allows you to:
+
+- Connect to multiple data sources (like Prometheus, Tempo, etc.)
+- Create and customize real-time dashboards
+- Explore and search logs and traces
+- Visualize metrics with rich graphs, tables, heatmaps, and more
+
+---
+
+## ✅ Prerequisites
+
+- Java 17+ installed
+- Maven installed
+- Docker & Docker Compose installed and running
+- Git (optional)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository (if applicable)
 
 ```bash
-mvn clean package
-```
-
-## 📥 Download OpenTelemetry Java Agent
-
-Download from:  
-https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
-
-Place it in the same folder as the project.
-
-## 🚀 Run the App with Agent
-
-
-
-## 📊 Run Jaeger (Tracing UI)
-
-```bash
-docker-compose up -d
-```
-
-Visit: [http://localhost:16686](http://localhost:16686)
-
-## 🧪 Test the App
-
-```bash
-curl http://localhost:8080/hello
-curl "http://localhost:8080/predict-age?name=lucy"
-```
+git clone <your-repo-url>
+cd <your-project-directory>

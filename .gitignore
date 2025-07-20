@@ -1,0 +1,69 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+
+# IntelliJ / Eclipse / VS Code
+.idea/
+*.iws
+*.ipr
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.out
+
+# Spring Boot devtools restart directory
+.spring-boot-devtools.properties
+.spring-boot-devtools-restart/
+
+# Environment files
+.env
+.env.local
+*.env.*
+
+# OpenTelemetry agent
+opentelemetry-javaagent.jar
+
+# Docker artifacts
+*.pid
+docker-compose.override.yml
+docker-compose.*.override.yml
+
+# Build reports
+build/
+reports/
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
+
+# Shell history or temp scripts
+*.sh~
+*.bak.sh
+nohup.out
+
+# Log/trace outputs
+spring-boot.log
+*.trace.json
+*.trace.txt
+*.trace.log
+
+# Grafana/Tempo data
+grafana-storage/
+tempo-data/
